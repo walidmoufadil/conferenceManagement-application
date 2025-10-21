@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.conferenceservice.model.Keynote;
 
 import java.util.Date;
 import java.util.List;
@@ -23,8 +24,9 @@ public class Conference {
     private Double duree;
     private int nombreInscrits;
     private Double score;
-    private Long keynoteId;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "conference_id")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "conference")
     private List<Review> reviews;
+    private Long keynoteId;
+    @Transient
+    private Keynote keynote;
 }
