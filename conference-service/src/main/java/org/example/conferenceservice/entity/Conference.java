@@ -1,12 +1,10 @@
 package org.example.conferenceservice.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.example.conferenceservice.model.Keynote;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class Conference {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,8 +24,17 @@ public class Conference {
     private int nombreInscrits;
     private Double score;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "conference")
-    private List<Review> reviews;
+    private List<Review> reviews = new ArrayList<>();
     private Long keynoteId;
     @Transient
     private Keynote keynote;
+
+    public void addReview(Review review) {
+        reviews.add(review);
+        review.setConference(this);
+    }
+    public void removeReview(Review review) {
+        reviews.remove(review);
+        review.setConference(null);
+    }
 }
