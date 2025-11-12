@@ -23,6 +23,10 @@ public class IConferenceServiceImpl implements IConferenceService {
     ConferenceRepository conferenceRepository;
     @Autowired
     KeynoteClient keynoteClient;
+    @Autowired
+    ConferenceMapper conferenceMapper;
+    @Autowired
+    ReviewMapper reviewMapper;
 
     @Override
     public List<ConferenceResponseDTO> getConferences() {
@@ -30,7 +34,7 @@ public class IConferenceServiceImpl implements IConferenceService {
         conferences.forEach(conference -> {
             if(conference.getKeynoteId() != null) conference.setKeynote(keynoteClient.getKeynoteById(conference.getKeynoteId()));
         });
-        return conferences.stream().map(ConferenceMapper::toDTO).collect(Collectors.toList());
+        return conferences.stream().map(conferenceMapper::toDTO).collect(Collectors.toList());
     }
 
     @Override
@@ -38,12 +42,12 @@ public class IConferenceServiceImpl implements IConferenceService {
         Conference conference = conferenceRepository.findById(id).orElseThrow(() -> new RuntimeException("Conference not found"));
         Keynote keynote = keynoteClient.getKeynoteById(conference.getKeynoteId());
         conference.setKeynote(keynote);
-        return ConferenceMapper.toDTO(conference);
+        return conferenceMapper.toDTO(conference);
     }
 
     @Override
     public void createConference(ConferenceRequestDTO conference) {
-        conferenceRepository.save(ConferenceMapper.toEntity(conference));
+        conferenceRepository.save(conferenceMapper.toEntity(conference));
     }
 
     @Override
@@ -58,7 +62,7 @@ public class IConferenceServiceImpl implements IConferenceService {
         existingConference.setType(conference.getType());
         existingConference.getReviews().clear();
         if (conference.getReviews() != null) {
-            conference.getReviews().stream().map(ReviewMapper::toEntity).forEach(review -> {
+            conference.getReviews().stream().map(reviewMapper::toEntity).forEach(review -> {
                 review.setConference(existingConference);
                 existingConference.getReviews().add(review);
             });
@@ -83,7 +87,7 @@ public class IConferenceServiceImpl implements IConferenceService {
         if (updatedData.getReviews() != null && !updatedData.getReviews().isEmpty()) {
             // Option 1 : remplacer tout (attention, comme dans PUT)
             existing.getReviews().clear();
-            updatedData.getReviews().stream().map(ReviewMapper::toEntity).forEach(review -> {
+            updatedData.getReviews().stream().map(reviewMapper::toEntity).forEach(review -> {
                 review.setConference(existing);
                 existing.getReviews().add(review);
             });
@@ -97,7 +101,7 @@ public class IConferenceServiceImpl implements IConferenceService {
         Conference existing = conferenceRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Conference not found"));
 
-        reviews.stream().map(ReviewMapper::toEntity).forEach(review -> {
+        reviews.stream().map(reviewMapper::toEntity).forEach(review -> {
             review.setConference(existing);
             existing.getReviews().add(review);
         });
