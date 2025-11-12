@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(name = "keynote-service")
 public interface KeynoteClient {
-    @GetMapping("/keynotes/{id}")
-    public Keynote getKeynote(@PathVariable Long id);
+    @GetMapping("/api/keynotes/{id}")
+    public Keynote getKeynoteById(@PathVariable Long id);
 }
