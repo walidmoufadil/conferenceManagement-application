@@ -3,10 +3,12 @@ package org.example.conferenceservice.mapper;
 import org.example.conferenceservice.dto.ConferenceRequestDTO;
 import org.example.conferenceservice.dto.ConferenceResponseDTO;
 import org.example.conferenceservice.entity.Conference;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ConferenceMapper {
 
-    public static ConferenceResponseDTO toDTO(Conference conference) {
+    public  ConferenceResponseDTO toDTO(Conference conference) {
         ConferenceResponseDTO conferenceResponseDTO = new ConferenceResponseDTO();
         conferenceResponseDTO.setId(conference.getId());
         conferenceResponseDTO.setDate(conference.getDate());
@@ -21,7 +23,7 @@ public class ConferenceMapper {
         return conferenceResponseDTO;
     }
 
-    public static Conference toEntity(ConferenceRequestDTO conferenceRequestDTO) {
+    public Conference toEntity(ConferenceRequestDTO conferenceRequestDTO) {
         Conference conference = new Conference();
         conference.setType(conferenceRequestDTO.getType());
         conference.setDate(conferenceRequestDTO.getDate());
