@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.conferenceservice.model.Keynote;
 
 import java.util.Date;
 import java.util.List;
@@ -21,6 +22,7 @@ public class ConferenceResponseDTO {
     private Double duree;
     private int nombreInscrits;
     private Double score;
-    private List<String> reviews ;
+    private List<ReviewResponseDTO> reviews ;
     private Long keynoteId;
+    private Keynote keynote;
 }
