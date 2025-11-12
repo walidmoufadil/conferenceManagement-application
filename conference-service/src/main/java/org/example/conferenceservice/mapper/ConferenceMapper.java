@@ -1,4 +1,36 @@
 package org.example.conferenceservice.mapper;
 
+import org.example.conferenceservice.dto.ConferenceRequestDTO;
+import org.example.conferenceservice.dto.ConferenceResponseDTO;
+import org.example.conferenceservice.entity.Conference;
+
 public class ConferenceMapper {
+
+    public static ConferenceResponseDTO toDTO(Conference conference) {
+        ConferenceResponseDTO conferenceResponseDTO = new ConferenceResponseDTO();
+        conferenceResponseDTO.setId(conference.getId());
+        conferenceResponseDTO.setDate(conference.getDate());
+        conferenceResponseDTO.setDuree(conference.getDuree());
+        conferenceResponseDTO.setScore(conference.getScore());
+        conferenceResponseDTO.setTitre(conference.getTitre());
+        conferenceResponseDTO.setNombreInscrits(conference.getNombreInscrits());
+        conferenceResponseDTO.setType(conference.getType().toString());
+        conferenceResponseDTO.setKeynoteId(conference.getKeynoteId());
+        conferenceResponseDTO.setReviews(conference.getReviews().stream().map(ReviewMapper::toDto).toList());
+        conferenceResponseDTO.setKeynote(conference.getKeynote());
+        return conferenceResponseDTO;
+    }
+
+    public static Conference toEntity(ConferenceRequestDTO conferenceRequestDTO) {
+        Conference conference = new Conference();
+        conference.setType(conferenceRequestDTO.getType());
+        conference.setDate(conferenceRequestDTO.getDate());
+        conference.setDuree(conferenceRequestDTO.getDuree());
+        conference.setScore(conferenceRequestDTO.getScore());
+        conference.setTitre(conferenceRequestDTO.getTitre());
+        conference.setNombreInscrits(conferenceRequestDTO.getNombreInscrits());
+        conference.setKeynoteId(conferenceRequestDTO.getKeynoteId());
+        conference.setReviews(conferenceRequestDTO.getReviews().stream().map(ReviewMapper::toEntity).toList());
+        return conference;
+    }
 }
