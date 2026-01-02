@@ -3,6 +3,8 @@ package org.example.conferenceservice;
 import org.example.conferenceservice.entity.Conference;
 import org.example.conferenceservice.entity.Review;
 import org.example.conferenceservice.entity.TypeConference;
+import org.example.conferenceservice.mcp.ConferenceTools;
+import org.example.conferenceservice.mcp.ReviewTools;
 import org.example.conferenceservice.repository.ConferenceRepository;
 import org.example.conferenceservice.repository.ReviewRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -22,11 +24,15 @@ public class ConferenceServiceApplication {
         SpringApplication.run(ConferenceServiceApplication.class, args);
     }
 
+//    @Bean
+//    MethodToolCallbackProvider getmethodToolCallbackProvider(ConferenceTools conferenceTools, ReviewTools reviewTools) {
+//        return MethodToolCallbackProvider.builder()
+//                .toolObjects(conferenceTools, reviewTools)
+//                .build();
+//    }
     @Bean
     CommandLineRunner commandLineRunner(ConferenceRepository conferenceRepository, ReviewRepository repository, ReviewRepository reviewRepository) {
         return args -> {
-
-
             Conference conference1 = Conference.builder()
                     .titre("Spring Boot Conference")
                     .date(new Date())

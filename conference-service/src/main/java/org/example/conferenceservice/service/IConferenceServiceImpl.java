@@ -101,10 +101,12 @@ public class IConferenceServiceImpl implements IConferenceService {
         Conference existing = conferenceRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Conference not found"));
 
-        reviews.stream().map(reviewMapper::toEntity).forEach(review -> {
-            review.setConference(existing);
-            existing.getReviews().add(review);
-        });
+        if(reviews != null) {
+            reviews.stream().map(reviewMapper::toEntity).forEach(review -> {
+                review.setConference(existing);
+                existing.getReviews().add(review);
+            });
+        }
 
         conferenceRepository.save(existing);
     }

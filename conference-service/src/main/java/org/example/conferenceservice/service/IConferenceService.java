@@ -3,7 +3,6 @@ package org.example.conferenceservice.service;
 import org.example.conferenceservice.dto.ConferenceRequestDTO;
 import org.example.conferenceservice.dto.ConferenceResponseDTO;
 import org.example.conferenceservice.dto.ReviewRequestDTO;
-import org.example.conferenceservice.entity.Review;
 
 import java.util.List;
 

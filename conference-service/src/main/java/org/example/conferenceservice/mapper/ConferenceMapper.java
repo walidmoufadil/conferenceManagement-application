@@ -3,10 +3,13 @@ package org.example.conferenceservice.mapper;
 import org.example.conferenceservice.dto.ConferenceRequestDTO;
 import org.example.conferenceservice.dto.ConferenceResponseDTO;
 import org.example.conferenceservice.entity.Conference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ConferenceMapper {
+    @Autowired
+    private ReviewMapper reviewMapper;
 
     public  ConferenceResponseDTO toDTO(Conference conference) {
         ConferenceResponseDTO conferenceResponseDTO = new ConferenceResponseDTO();
@@ -18,7 +21,8 @@ public class ConferenceMapper {
         conferenceResponseDTO.setNombreInscrits(conference.getNombreInscrits());
         conferenceResponseDTO.setType(conference.getType().toString());
         conferenceResponseDTO.setKeynoteId(conference.getKeynoteId());
-        conferenceResponseDTO.setReviews(conference.getReviews().stream().map(ReviewMapper::toDto).toList());
+        if(conference.getReviews() != null)
+            conferenceResponseDTO.setReviews(conference.getReviews().stream().map(reviewMapper::toDto).toList());
         conferenceResponseDTO.setKeynote(conference.getKeynote());
         return conferenceResponseDTO;
     }
@@ -32,7 +36,8 @@ public class ConferenceMapper {
         conference.setTitre(conferenceRequestDTO.getTitre());
         conference.setNombreInscrits(conferenceRequestDTO.getNombreInscrits());
         conference.setKeynoteId(conferenceRequestDTO.getKeynoteId());
-        conference.setReviews(conferenceRequestDTO.getReviews().stream().map(ReviewMapper::toEntity).toList());
+        if(conferenceRequestDTO.getReviews() != null)
+            conference.setReviews(conferenceRequestDTO.getReviews().stream().map(reviewMapper::toEntity).toList());
         return conference;
     }
 }

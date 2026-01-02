@@ -23,7 +23,7 @@ public class Conference {
     private Double duree;
     private int nombreInscrits;
     private Double score;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "conference")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "conference",fetch = FetchType.EAGER)
     private List<Review> reviews = new ArrayList<>();
     private Long keynoteId;
     @Transient
