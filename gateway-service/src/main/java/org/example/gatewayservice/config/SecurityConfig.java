@@ -9,7 +9,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -33,8 +32,17 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/v3/**",
                                 "/actuator/**",
-                                "/webjars/**"
+                                "/webjars/**",
+                                "/conference-service/**",
+                                "/keynote-service/**",
+                                "/conference-service/api/conferences/**",
+                                "/conference-service/mcp/**",
+                                "/conference-service/sse/**",
+                                "/keynote-service/mcp/**",
+                                "/keynote-service/sse/**",
+                                "/keynote-service/api/keynotes/**"
                         ).permitAll()
+//                        .pathMatchers("/conference-service/api/conferences").hasAuthority("ROLE_USER")
                         .anyExchange().authenticated()
                 )
                 .oauth2ResourceServer(ors -> ors.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthConverter)))
